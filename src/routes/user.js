@@ -23,20 +23,20 @@ router.post('/add', (req, res) => {
 
     // required params missing from post request body
     if(user.id == null || user.name == null || user.email == null) {
-        return res.status(401).send({error: true, msg: 'User data missing. Please send all required information.'})
+        return res.status(400).send({error: true, msg: 'User data missing. Please send all required information.'})
     }
 
     // ideally the DB would be producing the ids for us (no collisions)
     //check if the id (unique) exists already
-    const findExistingId = users.find( existingUser => existingUser.id === user.id )
+    const findExistingId = users.find( existingUser => existingUser.id == user.id )
     if (findExistingId) {
-        return res.status(409).send({error: true, msg: 'User Id already exist. Please enter another email address.'})
+        return res.status(400).send({error: true, msg: 'User Id already exist. Please enter another email address.'})
     }
 
     //check if the email (unique) exists already
     const findExistingEmail = users.find( existingUser => existingUser.email === user.email )
     if (findExistingEmail) {
-        return res.status(409).send({error: true, msg: 'Email already exist. Please enter another email address.'})
+        return res.status(400).send({error: true, msg: 'Email already exist. Please enter another email address.'})
     }
 
     // save user to datastore
@@ -54,14 +54,14 @@ router.put('/:id', (req, res) => {
     const newUser = req.body;
 
     //check if the user being updated exists
-    const findExistingId = users.find( existingUser => existingUser.id === id )
+    const findExistingId = users.find( existingUser => existingUser.id == id )
     if (!findExistingId) {
-        return res.status(401).send({error: true, msg: 'User does not exist.'})
+        return res.status(400).send({error: true, msg: 'User does not exist.'})
     }
 
     // required params missing from post request body
     if(newUser.name == null || newUser.email == null) {
-        return res.status(401).send({error: true, msg: 'User data missing. Please send all required information to update user.'})
+        return res.status(400).send({error: true, msg: 'User data missing. Please send all required information to update user.'})
     }
 
     // Remove user from the users array
@@ -72,7 +72,7 @@ router.put('/:id', (req, res) => {
         }
     }
 
-    return res.status(200).send({success: true, msg: 'User updated successfully!'});
+    return res.status(200).send({success: true, msg: 'User updated successfully!', user: newUser});
 });
 
 /*
@@ -83,9 +83,9 @@ router.delete('/:id', (req, res) => {
     const id = req.params.id;
 
     //check if the user being updated exists
-    const findExistingId = users.find( existingUser => existingUser.id === id )
+    const findExistingId = users.find( existingUser => existingUser.id == id )
     if (!findExistingId) {
-        return res.status(401).send({error: true, msg: 'User does not exist.'})
+        return res.status(400).send({error: true, msg: 'User does not exist.'})
     }
 
     // Remove user from the users array
@@ -107,16 +107,16 @@ router.post('/:id/subreddits', (req, res) => {
     const id = req.params.id;
 
     //check if the user exists
-    const findExistingId = users.find( existingUser => existingUser.id === id )
+    const findExistingId = users.find( existingUser => existingUser.id == id )
     if (!findExistingId) {
-        return res.status(401).send({error: true, msg: 'User does not exist.'})
+        return res.status(400).send({error: true, msg: 'User does not exist.'})
     }
 
     const favoriteSubreddits = req.body;
     // check if request contains subreddits
     if(!favoriteSubreddits.hasOwnProperty('subreddits')){
         console.log(favoriteSubreddits);
-        return res.status(401).send({error: true, msg: 'Favorite Subreddits missing.'})
+        return res.status(400).send({error: true, msg: 'Favorite Subreddits missing.'})
     }
     // **If user has favorite subreddits - override them. Conscious design decision.**
     // Update users favorite subreddit in the user_preference table/datastore
@@ -139,16 +139,16 @@ router.put('/:id/subreddits', (req, res) => {
     const id = req.params.id;
 
     //check if the user exists
-    const findExistingId = users.find( existingUser => existingUser.id === id )
+    const findExistingId = users.find( existingUser => existingUser.id == id )
     if (!findExistingId) {
-        return res.status(401).send({error: true, msg: 'User does not exist.'})
+        return res.status(400).send({error: true, msg: 'User does not exist.'})
     }
 
     const favoriteSubreddits = req.body;
     // check if request contains subreddits
     if(!favoriteSubreddits.hasOwnProperty('subreddits')){
         console.log(favoriteSubreddits);
-        return res.status(401).send({error: true, msg: 'Favorite Subreddits missing.'})
+        return res.status(400).send({error: true, msg: 'Favorite Subreddits missing.'})
     }
     // **If user does not have favorite subreddits - create them. Conscious design decision.**
     // Update users favorite subreddit in the user_preference table/datastore

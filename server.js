@@ -24,3 +24,5 @@ app.use('/newsletter', newsletterRoute);
 
 
 app.listen(port, () => console.log(`Reddit Newsletter by Vedant Singhania app listening on port ${port}!`))
+
+module.exports = app; // for testing purposes
