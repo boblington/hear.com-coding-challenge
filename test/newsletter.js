@@ -1,6 +1,4 @@
 const models = require('../src/models');
-let User = models.users;
-
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = require('../server');

@@ -32,7 +32,6 @@ router.get('/send', (req, res) => {
             var newsletter = {};
             var content = [];
             newsletter.name = user.name;
-            //newsletter.content = [];
             // mocking a call to my datastore - would ideally get this information from reddit API or through scraping (if possible)
             for (const favoriteSubreddit of favoriteSubreddits){
                 for (const subreddit of subreddits){
@@ -46,7 +45,9 @@ router.get('/send', (req, res) => {
             emailPayload.push(newsletter);
         }
     }
-
+    /*
+    / Logging the email payload send out to the email service
+    **/
     console.log("Email payload", emailPayload);
 
     return res.status(200).send({success: true, message: "Newsletter sent!", emailPayload: emailPayload});
