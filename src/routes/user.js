@@ -4,12 +4,17 @@ const models = require('../models');
 let users = models.users;
 let user_preferences = models.user_preferences;
  
-// list all users
+/*
+ * GET /user to list all users.
+ */
 router.get('/', (req, res) => {
     return res.json(users);
 });
 
-// create user
+
+/*
+ * POST /user/add to create a new user.
+ */
 router.post('/add', (req, res) => {
     const user = req.body;
     
@@ -40,7 +45,9 @@ router.post('/add', (req, res) => {
     return res.status(200).send({success: true, msg: 'User added successfully!'});
 });
    
-// update user
+/*
+ * PUT /user/:id to update a user.
+ */
 router.put('/:id', (req, res) => {
     // Reading id from the URL
     const id = req.params.id;
@@ -68,7 +75,9 @@ router.put('/:id', (req, res) => {
     return res.status(200).send({success: true, msg: 'User updated successfully!'});
 });
 
-// delete user
+/*
+ * DELETE /user/:id to delete a user.
+ */
 router.delete('/:id', (req, res) => {
     // Reading user id from the URL
     const id = req.params.id;
@@ -91,7 +100,9 @@ router.delete('/:id', (req, res) => {
 });
 
 
-// create favorite subreddit
+/*
+ * POST /user/:id/subreddits to create a user's favorite subreddits.
+ */
 router.post('/:id/subreddits', (req, res) => {
     const id = req.params.id;
 
@@ -121,7 +132,9 @@ router.post('/:id/subreddits', (req, res) => {
     return res.status(200).send({success: true, msg: 'Favorite Subreddits added.'});
 });
 
-// create favorite subreddit
+/*
+ * PUT /user/:id/subreddits to update a user's favorite subreddits.
+ */
 router.put('/:id/subreddits', (req, res) => {
     const id = req.params.id;
 

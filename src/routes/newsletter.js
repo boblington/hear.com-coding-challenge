@@ -6,7 +6,9 @@ let user_preferences = models.user_preferences;
 let subreddits = models.subreddits;
 
 
-// endpoint to trigger the sendout of a newsletter
+/*
+ * GET /newsletter/send to trigger the sendout of a subreddit newsletter.
+ */
 router.get('/send', (req, res) => {
 
     // check the current time

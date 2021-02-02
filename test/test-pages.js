@@ -11,7 +11,7 @@ describe('Status and content', function() {
         });
 
         it('content', function(done) {
-            request('http://localhost:8080/' , function(error, response, body) {
+            request('http://localhost:3000/' , function(error, response, body) {
                 expect(body).to.equal('Hello World!');
                 done();
             });
